@@ -80,19 +80,19 @@
 // Make delta curves from many straight lines (linear interpolation).
 // This is a trade-off between visible corners (not enough segments)
 // and processor overload (too many expensive sqrt calls).
-#define DELTA_SEGMENTS_PER_SECOND 200
+#define DELTA_SEGMENTS_PER_SECOND 100
 
 // Center-to-center distance of the holes in the diagonal push rods.
-#define DELTA_DIAGONAL_ROD 156.0 // mm
+#define DEFAULT_DELTA_DIAGONAL_ROD 151.0 // mm
 
 // Horizontal offset from middle of printer to smooth rod center.
-#define DELTA_SMOOTH_ROD_OFFSET 115.7 // mm
+#define DELTA_SMOOTH_ROD_OFFSET 111.0 // mm
 
 // Horizontal offset of the universal joints on the end effector.
 #define DELTA_EFFECTOR_OFFSET 30.0 //33.0 // mm
 
 // Horizontal offset of the universal joints on the carriages.
-#define DELTA_CARRIAGE_OFFSET 20.0 //14.0 // mm
+#define DELTA_CARRIAGE_OFFSET 22.0 //14.0 // mm
 
 // Effective horizontal distance bridged by diagonal push rods.
 #define DEFAULT_DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-DELTA_EFFECTOR_OFFSET-DELTA_CARRIAGE_OFFSET)
@@ -101,20 +101,20 @@
 //#define DEBUG_MESSAGES
 
 // Precision for G30 delta autocalibration function
-#define AUTOCALIBRATION_PRECISION 0.03 // mm
+#define AUTOCALIBRATION_PRECISION 0.05 // mm
 
 // Diameter of print bed - this is used to set the distance that autocalibration probes the bed at.
-#define BED_DIAMETER 160 // mm
+#define BED_DIAMETER 110 // mm
 
 // Z-Probe variables
 // Start and end location values are used to deploy/retract the probe (will move from start to end and back again) 
 #define Z_PROBE_OFFSET {0, 0, 0, 0}  // X, Y, Z, E distance between hotend nozzle and deployed bed leveling probe.
-#define Z_PROBE_DEPLOY_START_LOCATION {-78, -45, 10, 0}   // X, Y, Z, E start location for z-probe deployment sequence
-#define Z_PROBE_DEPLOY_END_LOCATION {-78, -45, 10, 0} 	  // X, Y, Z, E end location for z-probe deployment sequence
-#define Z_PROBE_RETRACT_START_LOCATION {-78, -45, 10, 0}  // X, Y, Z, E start location for z-probe retract sequence
-#define Z_PROBE_RETRACT_END_LOCATION {-78, -45, 10, 0}     // X, Y, Z, E end location for z-probe retract sequence 
+#define Z_PROBE_DEPLOY_START_LOCATION {0, 0, 10, 0}   // X, Y, Z, E start location for z-probe deployment sequence
+#define Z_PROBE_DEPLOY_END_LOCATION {0, 0, 10, 0} 	  // X, Y, Z, E end location for z-probe deployment sequence
+#define Z_PROBE_RETRACT_START_LOCATION {0, 0, 10, 0}  // X, Y, Z, E start location for z-probe retract sequence
+#define Z_PROBE_RETRACT_END_LOCATION {0, 0, 10, 0}     // X, Y, Z, E end location for z-probe retract sequence 
 
-#define AUTOLEVEL_GRID 24 // Distance between autolevel Z probing points, should be less than print surface radius/3.
+#define AUTOLEVEL_GRID 14 // Distance between autolevel Z probing points, should be less than print surface radius/3.
 
 //===========================================================================
 //=============================Thermal Settings  ============================
@@ -349,7 +349,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // For deltabots this means top and center of the cartesian print volume.
 #define MANUAL_X_HOME_POS 0
 #define MANUAL_Y_HOME_POS 0
-#define MANUAL_Z_HOME_POS 215.51  // For delta: Distance between nozzle and print surface after homing.
+#define MANUAL_Z_HOME_POS 227.70  // For delta: Distance between nozzle and print surface after homing.
 
 //// MOVEMENT SETTINGS
 #define NUM_AXIS 4 // The axis order in all axis related arrays is X, Y, Z, E
@@ -358,8 +358,8 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // default settings
 
 #define DEFAULT_AXIS_STEPS_PER_UNIT   {80, 80, 80, 325.991}
-#define DEFAULT_MAX_FEEDRATE          {200, 200, 200, 200}    // (mm/sec)
-#define DEFAULT_MAX_ACCELERATION      {500,500,500,9000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
+#define DEFAULT_MAX_FEEDRATE          {380, 380, 380, 29}    // (mm/sec)
+#define DEFAULT_MAX_ACCELERATION      {500,500,500,5000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
 #define DEFAULT_ACCELERATION          380    // X, Y, Z and E max acceleration in mm/s^2 for printing moves
 #define DEFAULT_RETRACT_ACCELERATION  380   // X, Y, Z and E max acceleration in mm/s^2 for retracts
@@ -371,9 +371,9 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // #define EXTRUDER_OFFSET_Y {0.0, 5.00}  // (in mm) for each extruder, offset of the hotend on the Y axis
 
 // The speed change that does not require acceleration (i.e. the software might assume it can be done instantaneously)
-#define DEFAULT_XYJERK                20.0    // (mm/sec)
-#define DEFAULT_ZJERK                 20.0    // (mm/sec)
-#define DEFAULT_EJERK                 20.0    // (mm/sec)
+#define DEFAULT_XYJERK                18.0    // (mm/sec)
+#define DEFAULT_ZJERK                 18.0    // (mm/sec)
+#define DEFAULT_EJERK                 12.0    // (mm/sec)
 
 //===========================================================================
 //=============================Additional Features===========================
@@ -402,7 +402,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //LCD and SD support
 //#define ULTRA_LCD  //general lcd support, also 16x2
 //#define DOGLCD  // Support for SPI LCD 128x64 (Controller ST7565R graphic Display Family)
-#define SDSUPPORT // Enable SD Card Support in Hardware Console
+//#define SDSUPPORT // Enable SD Card Support in Hardware Console
 //#define SDSLOW // Use slower SD transfer mode (not normally needed - uncomment if you're getting volume init error)
 
 //#define ULTIMAKERCONTROLLER //as available from the ultimaker online store.
