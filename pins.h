@@ -1383,6 +1383,32 @@
   #define MOSI_PIN         10
 #endif
 
+// Tested on REPRAPDISCOUNT SMART CONTROLLER
+// by arteq <arteqw@gmail.com>
+#if MOTHERBOARD == 8  // Teensylu
+    #define LCD_PINS_RS   1 //PIN_C1
+    #define LCD_PINS_ENABLE 3 //PIN_D1
+    #define LCD_PINS_D4   0 //PIN_D3
+    #define LCD_PINS_D5   2 //PIN_D0
+    #define LCD_PINS_D6   4 //PIN_D2
+    #define LCD_PINS_D7   6 //PIN_D4
+    #define BTN_EN1   29 //5 PIN_D5
+    #define BTN_EN2   31 //7 PIN_D7
+    #define BTN_ENC   32 //the click PIN_F1
+    #define BEEPER    17
+    #define SDCARDDETECT  37 //PIN_E5
+
+    #define BLEN_C 2
+    #define BLEN_B 1
+    #define BLEN_A 0
+
+    //encoder rotation values
+    #define encrot0 0
+    #define encrot1 2
+    #define encrot2 3
+    #define encrot3 1
+#endif
+
 #endif  // MOTHERBOARD == 8 (Teensylu) or 81 (Printrboard)
 
 /****************************************************************************************
