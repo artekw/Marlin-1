@@ -98,16 +98,17 @@
 #define DEFAULT_DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-DELTA_EFFECTOR_OFFSET-DELTA_CARRIAGE_OFFSET)
 
 //Uncomment to enable autocalibration debug messages
-//#define DEBUG_MESSAGES
+#define DEBUG_MESSAGES
 
 // Precision for G30 delta autocalibration function
-#define AUTOCALIBRATION_PRECISION 0.05 // mm
+#define AUTOCALIBRATION_PRECISION 0.06 // mm
 
 // Diameter of print bed - this is used to set the distance that autocalibration probes the bed at.
-#define BED_DIAMETER 110 // mm
+#define BED_DIAMETER 90 // mm
 
 // Z-Probe variables
 // Start and end location values are used to deploy/retract the probe (will move from start to end and back again) 
+#define PROBING_FEEDRATE 100/10*60  // Speed for individual probe Use: G30 A F600
 #define Z_PROBE_OFFSET {0, 0, 0, 0}  // X, Y, Z, E distance between hotend nozzle and deployed bed leveling probe.
 #define Z_PROBE_DEPLOY_START_LOCATION {0, 0, 10, 0}   // X, Y, Z, E start location for z-probe deployment sequence
 #define Z_PROBE_DEPLOY_END_LOCATION {0, 0, 10, 0} 	  // X, Y, Z, E end location for z-probe deployment sequence
@@ -195,10 +196,10 @@
   #define PID_dT ((16.0 * 8.0)/(F_CPU / 64.0 / 256.0)) //sampling period of the temperature routine
 
 // If you are using a preconfigured hotend then you can use one of the value sets by uncommenting it
-// J-Head with 12v 40W heater cartridge
-    #define  DEFAULT_Kp 15.34
-    #define  DEFAULT_Ki 1.57
-    #define  DEFAULT_Kd 37.45
+// E3D v6
+    #define  DEFAULT_Kp 37.27
+    #define  DEFAULT_Ki 4.82
+    #define  DEFAULT_Kd 72.06
 
 // Makergear
 //    #define  DEFAULT_Kp 7.0
@@ -330,10 +331,10 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define min_software_endstops true // If true, axis won't move to coordinates less than HOME_POS.
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 // Travel limits after homing
-#define X_MAX_POS 90
-#define X_MIN_POS -90
-#define Y_MAX_POS 90
-#define Y_MIN_POS -90
+#define X_MAX_POS 70
+#define X_MIN_POS -70
+#define Y_MAX_POS 70
+#define Y_MIN_POS -70
 #define Z_MAX_POS MANUAL_Z_HOME_POS
 #define Z_MIN_POS 0
 
@@ -357,7 +358,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {80, 80, 80, 325.991}
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {80, 80, 80, 326}
 #define DEFAULT_MAX_FEEDRATE          {380, 380, 380, 29}    // (mm/sec)
 #define DEFAULT_MAX_ACCELERATION      {500,500,500,5000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
