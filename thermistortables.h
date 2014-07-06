@@ -71,6 +71,7 @@ const short temptable_1[][2] PROGMEM = {
 {       1008*OVERSAMPLENR       ,       0       } //safety
 };
 #endif
+
 #if (THERMISTORHEATER_0 == 2) || (THERMISTORHEATER_1 == 2) || (THERMISTORHEATER_2 == 2) || (THERMISTORBED == 2) //200k bed thermistor
 const short temptable_2[][2] PROGMEM = {
 //200k ATC Semitec 204GT-2
@@ -784,7 +785,6 @@ const short temptable_60[][2] PROGMEM = {
    {1008*OVERSAMPLENR, 0},
 };
 #endif
-
 
 #define _TT_NAME(_N) temptable_ ## _N
 #define TT_NAME(_N) _TT_NAME(_N)

@@ -102,16 +102,16 @@
 
 //Speed for autocalibration travel and probing moves
 #define AUTOCAL_TRAVELRATE 500 // mm/sec
-#define AUTOCAL_PROBERATE 35 // mm/sec
+#define AUTOCAL_PROBERATE 15 // mm/sec
 
 //Amount to lift head after probing a point
-#define AUTOCAL_PROBELIFT 2 // mm
+#define AUTOCAL_PROBELIFT 4 // mm
 
 // Precision for G30 delta autocalibration function
-#define AUTOCALIBRATION_PRECISION 0.03 // mm
+#define AUTOCALIBRATION_PRECISION 0.06 //0.03 // mm
 
 // Diameter of print bed - this is used to set the distance that autocalibration probes the bed at.
-#define BED_DIAMETER 110 // mm
+#define BED_DIAMETER 90 // mm  //170
 
 //Endstop Offset Adjustment - All values are in mm and must be negative (to move down away from endstop switches)
 #define TOWER_A_ENDSTOP_ADJ 0 // Front Left Tower
@@ -352,12 +352,12 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define min_software_endstops true // If true, axis won't move to coordinates less than HOME_POS.
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 // Travel limits after homing
-#define X_MAX_POS 90
-#define X_MIN_POS -90
-#define Y_MAX_POS 90
-#define Y_MIN_POS -90
+#define X_MAX_POS 70
+#define X_MIN_POS -70
+#define Y_MAX_POS 70
+#define Y_MIN_POS -70
 #define Z_MAX_POS MANUAL_Z_HOME_POS
-#define Z_MIN_POS 0
+#define Z_MIN_POS -5 // aby można było zejść ponizej stół - do kalibracji
 
 #define X_MAX_LENGTH (X_MAX_POS - X_MIN_POS)
 #define Y_MAX_LENGTH (Y_MAX_POS - Y_MIN_POS)
@@ -531,7 +531,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #endif
 
 #ifdef ULTIPANEL
-//  #define NEWPANEL  //enable this if you have a click-encoder panel
+  //#define NEWPANEL  //enable this if you have a click-encoder panel
   #define SDSUPPORT
   #define ULTRA_LCD
   #ifdef DOGLCD // Change number of lines to match the DOG graphic display
