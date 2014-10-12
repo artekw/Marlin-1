@@ -379,9 +379,9 @@ const unsigned int dropsegments=5; //everything with less than this number of st
 #ifdef ULTIPANEL
   #define FILAMENTCHANGEENABLE
   #ifdef FILAMENTCHANGEENABLE
-    #define FILAMENTCHANGE_XPOS 60 //3
-    #define FILAMENTCHANGE_YPOS 60 //3
-    #define FILAMENTCHANGE_ZADD 35 //10
+    #define FILAMENTCHANGE_XPOS 0 //3
+    #define FILAMENTCHANGE_YPOS 0 //3
+    #define FILAMENTCHANGE_ZADD 20 //10
     #define FILAMENTCHANGE_FIRSTRETRACT -2
     #define FILAMENTCHANGE_FINALRETRACT -100
   #endif

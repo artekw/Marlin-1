@@ -420,7 +420,7 @@ static void lcd_prepare_menu()
     MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
     //MENU_ITEM(gcode, MSG_SET_ORIGIN, PSTR("G92 X0 Y0 Z0"));
     MENU_ITEM(function, MSG_PREHEAT_PLA, lcd_preheat_pla);
-    //MENU_ITEM(function, MSG_PREHEAT_ABS, lcd_preheat_abs); // my delta not have heatbed
+    //MENU_ITEM(function, MSG_PREHEAT_ABS, lcd_preheat_abs);
     MENU_ITEM(function, MSG_COOLDOWN, lcd_cooldown);
 #if PS_ON_PIN > -1
     if (powersupply)
