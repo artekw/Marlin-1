@@ -210,10 +210,10 @@
 #if LANGUAGE_CHOICE == 2
 
 // LCD Menu Messages
-	#define WELCOME_MSG MACHINE_NAME " Gotowe."
+	#define WELCOME_MSG MACHINE_NAME " gotowa"
 	#define MSG_SD_INSERTED "Karta wlozona"
 	#define MSG_SD_REMOVED "Karta usunieta"
-	#define MSG_MAIN "Main"
+	#define MSG_MAIN "Menu glowne"
 	#define MSG_AUTOSTART "Autostart"
 	#define MSG_DISABLE_STEPPERS "Wylacz silniki"
 	#define MSG_AUTO_HOME "Auto. poz. zerowa"
@@ -246,7 +246,7 @@
 	#define MSG_PID_I "PID-I"
 	#define MSG_PID_D "PID-D"
 	#define MSG_PID_C "PID-C"
-	#define MSG_ACC  "Acc"
+	#define MSG_ACC  "Akc"
 	#define MSG_VXY_JERK "Zryw Vxy"
 	#define MSG_VZ_JERK "Zryw Vz"
 	#define MSG_VE_JERK "Zryw Ve"
@@ -266,10 +266,10 @@
 	#define MSG_RECTRACT "Wycofanie"
 	#define MSG_TEMPERATURE "Temperatura"
 	#define MSG_MOTION "Ruch"
-	#define MSG_CONTRAST "LCD contrast"
+	#define MSG_CONTRAST "LCD kontrast"
 	#define MSG_STORE_EPROM "Zapisz w pamieci"
 	#define MSG_LOAD_EPROM "Wczytaj z pamieci"
-	#define MSG_RESTORE_FAILSAFE " Ustawienia fabryczne"
+	#define MSG_RESTORE_FAILSAFE " Ust. fabryczne"
 	#define MSG_REFRESH "\004Odswiez"
 	#define MSG_WATCH "Obserwuj"
 	#define MSG_PREPARE "Przygotuj"
@@ -294,9 +294,9 @@
 	#define MSG_CONTROL_RETRACT_RECOVER "Cof. wycof. +mm"
 	#define MSG_CONTROL_RETRACT_RECOVERF "Cof. wycof.  F"
 	#define MSG_AUTORETRACT "Auto. wycofanie"
-	#define MSG_FILAMENTCHANGE "Change filament"
+	#define MSG_FILAMENTCHANGE "Zmien filament"
 	#define MSG_INIT_SDCARD "Init. SD-Card"
-	#define MSG_CNG_SDCARD "Change SD-Card"
+	#define MSG_CNG_SDCARD "Zmien SD-Card"
 
 // Serial Console Messages
 
