@@ -1257,7 +1257,6 @@ ISR(TIMER0_COMPB_vect)
     }
 #endif
   }  
-}
 
 #ifdef BABYSTEPPING
   for(uint8_t axis=0;axis<3;axis++)
@@ -1277,7 +1276,8 @@ ISR(TIMER0_COMPB_vect)
     }
   }
 #endif //BABYSTEPPING
-
+}
+    
 #ifdef PIDTEMP
 // Apply the scale factors to the PID values
 
