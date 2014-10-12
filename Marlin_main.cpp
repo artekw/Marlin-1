@@ -265,7 +265,7 @@ static float bed_level[7][7] = {
 static bool home_all_axis = true;
 static float feedrate = 1500.0, next_feedrate, saved_feedrate, z_offset;
 static float bed_level_x, bed_level_y, bed_level_z;
-static float bed_level_c = 45; //used for inital bed probe safe distance (to avoid crashing into bed)  // 25
+static float bed_level_c = 65; //used for inital bed probe safe distance (to avoid crashing into bed)  // 25
 static float bed_level_ox, bed_level_oy, bed_level_oz;
 static long gcode_N, gcode_LastN, Stopped_gcode_LastN = 0;
 static int loopcount;

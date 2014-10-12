@@ -52,7 +52,11 @@ extern float current_temperature_bed;
 #ifdef PIDTEMPBED
   extern float bedKp,bedKi,bedKd;
 #endif
-  
+
+#ifdef BABYSTEPPING
+  extern volatile int babystepsTodo[3];
+#endif
+
 //high level conversion routines, for use outside of temperature.cpp
 //inline so that there is no performance decrease.
 //deg=degreeCelsius

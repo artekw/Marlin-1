@@ -3,7 +3,7 @@
 
 // NOTE: IF YOU CHANGE THIS FILE / MERGE THIS FILE WITH CHANGES
 //
-//   ==> ALWAYS TRY TO COMPILE MARLIN WITH/WITHOUT "ULTIPANEL" / "ULTRALCD" / "SDSUPPORT" #define IN "Configuration.h" 
+//   ==> ALWAYS TRY TO COMPILE MARLIN WITH/WITHOUT "ULTIPANEL" / "ULTRALCD" / "SDSUPPORT" #define IN "Configuration.h"
 //   ==> ALSO TRY ALL AVAILABLE "LANGUAGE_CHOICE" OPTIONS
 
 // Languages
@@ -18,7 +18,7 @@
 // 9  Finnish
 
 #ifndef LANGUAGE_CHOICE
-#define LANGUAGE_CHOICE 1  // Pick your language from the list above
+#define LANGUAGE_CHOICE 2  // Pick your language from the list above
 #endif
 
 #define PROTOCOL_VERSION "1.0"
@@ -129,7 +129,7 @@
 	#define MSG_CONTROL_RETRACT_RECOVERF "UnRet  F"
 	#define MSG_AUTORETRACT "AutoRetr."
 	#define MSG_FILAMENTCHANGE "Change filament"
-	#define MSG_INIT_SDCARD "Init. SD-Card"	
+	#define MSG_INIT_SDCARD "Init. SD-Card"
 	#define MSG_CNG_SDCARD "Change SD-Card"
 
 // Serial Console Messages
@@ -294,7 +294,7 @@
 	#define MSG_CONTROL_RETRACT_RECOVERF "Cof. wycof.  F"
 	#define MSG_AUTORETRACT "Auto. wycofanie"
 	#define MSG_FILAMENTCHANGE "Change filament"
-	#define MSG_INIT_SDCARD "Init. SD-Card"	
+	#define MSG_INIT_SDCARD "Init. SD-Card"
 	#define MSG_CNG_SDCARD "Change SD-Card"
 
 // Serial Console Messages
@@ -458,7 +458,7 @@
 	#define MSG_CONTROL_RETRACT_RECOVERF "UnRet F"
 	#define MSG_AUTORETRACT "Retract. Auto."
 	#define MSG_FILAMENTCHANGE "Changer filament"
-	#define MSG_INIT_SDCARD "Init. la carte SD"	
+	#define MSG_INIT_SDCARD "Init. la carte SD"
 	#define MSG_CNG_SDCARD "Changer de carte SD"
 
 // Serial Console Messages
@@ -531,7 +531,7 @@
 	#define MSG_ENDSTOPS_HIT "Fin de course atteint: "
 	#define MSG_ERR_COLD_EXTRUDE_STOP " Extrusion a froid evitee"
 	#define MSG_ERR_LONG_EXTRUDE_STOP " Extrusion longue evitee"
-	
+
 #endif
 
 
@@ -610,7 +610,7 @@
 	#define MSG_STOP_PRINT       "Druck stoppen"
 	#define MSG_CARD_MENU        "SDKarten Menü"
 	#define MSG_NO_CARD          "Keine SDKarte"
-	#define MSG_DWELL            "Warten..."		
+	#define MSG_DWELL            "Warten..."
 	#define MSG_USERWAIT         "Warte auf Nutzer..."
 	#define MSG_RESUMING         "Druck fortsetzung"
 	#define MSG_NO_MOVE          "Kein Zug."
@@ -625,9 +625,9 @@
 	#define MSG_CONTROL_RETRACT_RECOVERF "UnRet  F"
 	#define MSG_AUTORETRACT      "AutoRetr."
 	#define MSG_FILAMENTCHANGE "Filament wechseln"
-	#define MSG_INIT_SDCARD "Init. SD-Card"	
+	#define MSG_INIT_SDCARD "Init. SD-Card"
 	#define MSG_CNG_SDCARD "Change SD-Card"
-	
+
 // Serial Console Messages
 
 	#define MSG_Enqueing "enqueing \""
@@ -957,7 +957,7 @@
 	#define MSG_CONTROL_RETRACT_RECOVERF		" Возврат  F:"
 	#define MSG_AUTORETRACT						" АвтоОткат:"
 	#define MSG_FILAMENTCHANGE "Change filament"
-	#define MSG_INIT_SDCARD "Init. SD-Card"	
+	#define MSG_INIT_SDCARD "Init. SD-Card"
 	#define MSG_CNG_SDCARD "Change SD-Card"
 
 // Serial Console Messages
@@ -1288,7 +1288,7 @@
 	#define MSG_AUTORETRACT " AutoRetr.:"
 	#define MSG_SERIAL_ERROR_MENU_STRUCTURE "Algo esta errado na estrutura do Menu."
 	#define MSG_FILAMENTCHANGE "Change filament"
-	#define MSG_INIT_SDCARD "Init. SD-Card"	
+	#define MSG_INIT_SDCARD "Init. SD-Card"
 	#define MSG_CNG_SDCARD "Change SD-Card"
 
 // Serial Console Messages
@@ -1454,7 +1454,7 @@
 	#define MSG_CONTROL_RETRACT_RECOVERF "UnRet  F"
 	#define MSG_AUTORETRACT "AutoVeto."
 	#define MSG_FILAMENTCHANGE "Change filament"
-	#define MSG_INIT_SDCARD "Init. SD-Card"	
+	#define MSG_INIT_SDCARD "Init. SD-Card"
 	#define MSG_CNG_SDCARD "Change SD-Card"
 
 // Serial Console Messages
