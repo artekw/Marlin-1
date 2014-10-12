@@ -113,7 +113,7 @@
 // M140 - Set bed target temp
 // M190 - Sxxx Wait for bed current temp to reach target temp. Waits only when heating
 //        Rxxx Wait for bed current temp to reach target temp. Waits when heating and cooling
-// M200 - Set filament diameter
+// M200 - Set filament diameter D<millimeters>
 // M201 - Set max acceleration in units/s^2 for print moves (M201 X1000 Y1000)
 // M202 - Set max acceleration in units/s^2 for travel moves (M202 X1000 Y1000) Unused in Marlin!!
 // M203 - Set maximum feedrate that your machine can sustain (M203 X200 Y200 Z300 E10000) in mm/sec
@@ -175,6 +175,25 @@ bool axis_relative_modes[] = AXIS_RELATIVE_MODES;
 int feedmultiply=100; //100->1 200->2
 int saved_feedmultiply;
 int extrudemultiply=100; //100->1 200->2
+
+int extruder_multiply[EXTRUDERS] = {100
+  #if EXTRUDERS > 1
+    , 100
+    #if EXTRUDERS > 2
+      , 100
+    #endif
+  #endif
+};
+
+float volumetric_multiplier[EXTRUDERS] = {1.0
+  #if EXTRUDERS > 1
+    , 1.0
+    #if EXTRUDERS > 2
+      , 1.0
+    #endif
+  #endif
+};
+
 float current_position[NUM_AXIS] = { 0.0, 0.0, 0.0, 0.0 };
 float add_homeing[3]={0,0,0};
 #ifdef DELTA
@@ -232,8 +251,11 @@ int EtoPPressure=0;
 #ifdef FWRETRACT
   bool autoretract_enabled=true;
   bool retracted=false;
-  float retract_length=3, retract_feedrate=17*60, retract_zlift=0.8;
-  float retract_recover_length=0, retract_recover_feedrate=8*60;
+  float retract_length = RETRACT_LENGTH;
+  float retract_feedrate = RETRACT_FEEDRATE;
+  float retract_zlift = RETRACT_ZLIFT;
+  float retract_recover_length = RETRACT_RECOVER_LENGTH;
+  float retract_recover_feedrate = RETRACT_RECOVER_FEEDRATE;
 #endif
 
 #ifdef ULTIPANEL
@@ -1309,6 +1331,60 @@ void home_delta_axis() {
     endstops_hit_on_purpose(); 
 }
 
+#ifdef FWRETRACT
+  void retract(bool retracting) {
+    if(retracting && !retracted) {
+      destination[X_AXIS]=current_position[X_AXIS];
+      destination[Y_AXIS]=current_position[Y_AXIS];
+      destination[Z_AXIS]=current_position[Z_AXIS];
+      destination[E_AXIS]=current_position[E_AXIS];
+      current_position[E_AXIS]+=retract_length/volumetric_multiplier[active_extruder];
+      plan_set_e_position(current_position[E_AXIS]);
+      float oldFeedrate = feedrate;
+      feedrate=retract_feedrate*60;
+      retracted=true;
+      prepare_move();
+      #ifdef DELTA // move all axis equally when zlifting on Delta
+      	current_position[X_AXIS]-=retract_zlift;
+      	current_position[Y_AXIS]-=retract_zlift;
+      #endif //DELTA
+      current_position[Z_AXIS]-=retract_zlift;
+      #ifdef DELTA //https://github.com/darconeous/Marlin/commit/1fd9a7d476c945fc2088a978ddd37fd3cd2f5b30
+        calculate_delta(current_position); // change cartesian kinematic to  delta kinematic;
+        plan_set_position(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS]);
+      #else
+        plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+      #endif //DELTA
+      prepare_move();
+      feedrate = oldFeedrate;
+    } else if(!retracting && retracted) {
+      destination[X_AXIS]=current_position[X_AXIS];
+      destination[Y_AXIS]=current_position[Y_AXIS];
+      destination[Z_AXIS]=current_position[Z_AXIS];
+      destination[E_AXIS]=current_position[E_AXIS];
+      #ifdef DELTA
+      	current_position[X_AXIS]+=retract_zlift;
+      	current_position[Y_AXIS]+=retract_zlift;
+      #endif //DELTA
+      current_position[Z_AXIS]+=retract_zlift;
+      #ifdef DELTA //https://github.com/darconeous/Marlin/commit/1fd9a7d476c945fc2088a978ddd37fd3cd2f5b30
+        calculate_delta(current_position); // change cartesian kinematic  to  delta kinematic;
+        plan_set_position(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS]);
+      #else
+        plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+      #endif //DELTA
+      //prepare_move();
+      current_position[E_AXIS]-=(retract_length+retract_recover_length)/volumetric_multiplier[active_extruder]; 
+      plan_set_e_position(current_position[E_AXIS]);
+      float oldFeedrate = feedrate;
+      feedrate=retract_recover_feedrate*60;
+      retracted=false;
+      prepare_move();
+      feedrate = oldFeedrate;
+    }
+  } //retract
+#endif //FWRETRACT
+
 void process_commands()
 {
   unsigned long codenum; //throw away variable
@@ -1322,11 +1398,23 @@ void process_commands()
     case 1: // G1
       if(Stopped == false) {
         get_coordinates(); // For X Y Z E F
+			#ifdef FWRETRACT
+				if(autoretract_enabled)
+				if( !(code_seen('X') || code_seen('Y') || code_seen('Z')) && code_seen('E')) {
+				float echange=destination[E_AXIS]-current_position[E_AXIS];
+				if((echange<-MIN_RETRACT && !retracted) || (echange>MIN_RETRACT && retracted)) { //move appears to be an attempt to retract or recover
+					current_position[E_AXIS] = destination[E_AXIS]; //hide the slicer-generated retract/recover from calculations
+					plan_set_e_position(current_position[E_AXIS]); //AND from the planner
+					retract(!retracted);
+					return;
+				}
+				}
+			#endif //FWRETRACT
         prepare_move();
         //ClearToSend();
         return;
       }
-      //break;
+      break;
     case 2: // G2  - CW ARC
       if(Stopped == false) {
         get_arc_coordinates();
@@ -1356,33 +1444,11 @@ void process_commands()
       break;
 #ifdef FWRETRACT
     case 10: // G10 retract
-      if(!retracted)
-      {
-        destination[X_AXIS]=current_position[X_AXIS];
-        destination[Y_AXIS]=current_position[Y_AXIS];
-        destination[Z_AXIS]=current_position[Z_AXIS];
-        current_position[Z_AXIS]+=-retract_zlift;
-        destination[E_AXIS]=current_position[E_AXIS]-retract_length;
-        feedrate=retract_feedrate;
-        retracted=true;
-        prepare_move();
-      }
-
-      break;
-     case 11: // G10 retract_recover
-      if(!retracted)
-      {
-        destination[X_AXIS]=current_position[X_AXIS];
-        destination[Y_AXIS]=current_position[Y_AXIS];
-        destination[Z_AXIS]=current_position[Z_AXIS];
-
-        current_position[Z_AXIS]+=retract_zlift;
-        current_position[E_AXIS]+=-retract_recover_length;
-        feedrate=retract_recover_feedrate;
-        retracted=false;
-        prepare_move();
-      }
-      break;
+		retract(true);
+		break;
+	case 11: // G11 retract_recover
+		retract(false);
+		break;
 #endif //FWRETRACT
     case 28: //G28 Home all Axis one at a time
       saved_feedrate = feedrate;
@@ -2622,6 +2688,36 @@ void process_commands()
       #endif
       break;
       //TODO: update for all axis, use for loop
+    case 200: // M200 D<millimeters> set filament diameter and set E axis units to cubic millimeters (use S0 to set back to millimeters).
+      {
+        float area = .0;
+        float radius = .0;
+        if(code_seen('D')) {
+          SERIAL_ECHO_START;
+          SERIAL_ECHOLN("New Filament Diameter: ");
+          SERIAL_PROTOCOL((float)code_value());
+          radius = (float)code_value() * .5;
+          if(radius == 0) {
+            area = 1;
+          } else {
+            area = M_PI * pow(radius, 2);
+          }
+        } else {
+          //reserved for setting filament diameter via UFID or filament measuring device
+          break;
+        }
+        tmp_extruder = active_extruder;
+        if(code_seen('T')) {
+          tmp_extruder = code_value();
+          if(tmp_extruder >= EXTRUDERS) {
+            SERIAL_ECHO_START;
+            SERIAL_ECHO(MSG_M200_INVALID_EXTRUDER);
+            break;
+          }
+        }
+        volumetric_multiplier[tmp_extruder] = 1 / area;
+      }
+      break;
     case 201: // M201
       for(int8_t i=0; i < NUM_AXIS; i++)
       {
@@ -2757,7 +2853,7 @@ void process_commands()
         break;
     #endif  //Delta
     #ifdef FWRETRACT
-    case 207: //M207 - set retract length S[positive mm] F[feedrate mm/sec] Z[additional zlift/hop]
+    case 207: //M207 - set retract length S[positive mm] F[feedrate mm/min] Z[additional zlift/hop]
     {
       if(code_seen('S'))
       {
@@ -2765,14 +2861,14 @@ void process_commands()
       }
       if(code_seen('F'))
       {
-        retract_feedrate = code_value() ;
+        retract_feedrate = code_value()/60 ;
       }
       if(code_seen('Z'))
       {
         retract_zlift = code_value() ;
       }
     }break;
-    case 208: // M208 - set retract recover length S[positive mm surplus to the M207 S*] F[feedrate mm/sec]
+    case 208: // M208 - set retract recover length S[positive mm surplus to the M207 S*] F[feedrate mm/min]
     {
       if(code_seen('S'))
       {
@@ -2780,7 +2876,7 @@ void process_commands()
       }
       if(code_seen('F'))
       {
-        retract_recover_feedrate = code_value() ;
+        retract_recover_feedrate = code_value()/60 ;
       }
     }break;
     case 209: // M209 - S<1=true/0=false> enable automatic retract detect if the slicer did not support G10/11: every normal extrude-only move will be classified as retract depending on the direction.
@@ -3413,7 +3509,10 @@ void get_coordinates()
     next_feedrate = code_value();
     if(next_feedrate > 0.0) feedrate = next_feedrate;
   }
+  
+/*
   #ifdef FWRETRACT
+
   if(autoretract_enabled)
   if( !(seen[X_AXIS] || seen[Y_AXIS] || seen[Z_AXIS]) && seen[E_AXIS])
   {
@@ -3449,6 +3548,7 @@ void get_coordinates()
 
   }
   #endif //FWRETRACT
+  */
 }
 
 void get_arc_coordinates()
